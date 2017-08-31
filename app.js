@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mustacheExpress = require('mustache-express');
+const models = require("./models");
 
 app.engine('mustache', mustacheExpress());
 app.set('views', './views');
@@ -10,34 +11,30 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 
-
-// const models = require("./models");
-
-// function createUser() {
-//   const user = models.User.build({
-//     name: 'Sara Harless',
-//     email: 'sara.e.harless@gmail.com',
-//     bio: 'designer developer'
-//   });
-//
-//   user.save().then(function (newUser) {
-//     console.log(newUser.dataValues);
-//   })
-// }
-// createUser();
-//
-// function listUsers() {
-//   models.User.findAll().then(function(users) {
-//     users.forEach(function(user) {
-//       console.log(user.dataValues);
-//     })
-//   })
-// }
-// listUsers();
-
 app.get('/', function(req,res) {
   res.render("index");
 })
+app.get('/users', function(req, res){
+  models.User.findAll()
+  .then(function(users){
+    res.render('users', {userskey:users})
+  })
+})
+app.get('/new_user', function(req, res) {
+  res.render("new_user")
+})
+
+app.post('/create_user', function(req, res) {
+  const userToCreate = models.User.build({
+  name: req.body.name,
+  email: req.body.email,
+  bio: req.body.bio
+});
+  userToCreate.save().then(function () {
+    res.redirect('/users');
+})
+})
+
 
 app.listen(3000, function() {
   console.log('you did it, or something');
