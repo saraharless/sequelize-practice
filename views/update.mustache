@@ -5,12 +5,14 @@
     <title>Update User</title>
   </head>
   <body>
+    {{#userskey}}
     <h1>Update User</h1>
-    <form class="update" action="/update" method="post">
-      <p>name: <input type="text" name="name" value="{{name}}"></p>
-      <p>email: <input type="email" name="email" value="{{email}}"></p>
-      <p>bio: <input type="bio" name="bio" value="{{bio}}"></p>
+    <form class="update" action="/update/{{id}}" method="post">
+      <p>name: <input type="text" name="name" value="{{dataValues.name}}"></p>
+      <p>email: <input type="email" name="email" value="{{dataValues.email}}"></p>
+      <p>bio: <input type="bio" name="bio" value="{{dataValues.bio}}"></p>
       <input type="submit" name="submit" value="submit">
     </form>
+    {{/userskey}}
   </body>
 </html>

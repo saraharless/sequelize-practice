@@ -25,8 +25,12 @@ app.get('/users', function(req, res) {
 app.get('/new_user', function(req, res) {
   res.render('new_user')
 })
-app.get('/update', function(req, res) {
-  res.render('update')
+app.get('/update/:id', function(req, res) {
+  models.User.findById(req.params.id)
+    .then(function(users) {
+      res.render('update', {userskey: users})
+      // console.log(user);
+    })
 })
 
 app.post('/create_user', function(req, res) {
@@ -41,26 +45,26 @@ app.post('/create_user', function(req, res) {
 })
 
 app.post('/delete_user/:idOfTheUser', function(req, res) {
-  console.log('the id is: ' + req.params.idOfTheUser);
+  // console.log('the id is: ' + req.params.idOfTheUser);
   models.User.destroy({
-    where: {
-      id: req.params.idOfTheUser
-    }
-  })
-  .then(function() {
-    res.redirect('/users')
-  });
-});
-
-app.post('/update', function(req, res) {
-  models.User.update({
-    where: {
-      id: req.params.idOfTheUser
-    }
+      where: {
+        id: req.params.idOfTheUser
+      }
+    })
     .then(function() {
       res.redirect('/users')
     })
-  })
+})
+
+app.post('/update/:idOfTheUser', function(req, res) {
+  const userToUpdate = models.User.update({
+    name: req.body.name,
+    email: req.body.email,
+    bio: req.body.bio
+  },{where: {id: req.params.idOfTheUser}})
+    .then(function() {
+      res.redirect('/users')
+    })
 })
 
 
