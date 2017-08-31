@@ -23,7 +23,10 @@ app.get('/users', function(req, res) {
     })
 })
 app.get('/new_user', function(req, res) {
-  res.render("new_user")
+  res.render('new_user')
+})
+app.get('/update', function(req, res) {
+  res.render('update')
 })
 
 app.post('/create_user', function(req, res) {
@@ -48,6 +51,17 @@ app.post('/delete_user/:idOfTheUser', function(req, res) {
     res.redirect('/users')
   });
 });
+
+app.post('/update', function(req, res) {
+  models.User.update({
+    where: {
+      id: req.params.idOfTheUser
+    }
+    .then(function() {
+      res.redirect('/users')
+    })
+  })
+})
 
 
 app.listen(3000, function() {

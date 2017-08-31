@@ -9,10 +9,10 @@
     <a href="/new_user">add user</a>
     {{#userskey}}
     <div class="userbox">
-      <h4>{{id}}</h4>
-      <h4>{{name}}</h4>
-      <h4>{{email}}</h4>
-      <h4>{{bio}}</h4>
+      <h4>{{id}}</h4><br>
+      <h4><a href="/update">{{name}}</a></h4><br>
+      <h4>{{email}}</h4><br>
+      <h4>{{bio}}</h4><br>
     </div>
     <form action="delete_user/{{id}}" method="post">
       <button type="submit" name="delete">DELETE</button>
